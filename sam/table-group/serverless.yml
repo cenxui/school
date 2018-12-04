@@ -28,7 +28,7 @@
 # 16 July 2018
 
 
-service: table-school-user
+service: table-school-class
 
 provider:
   name: aws
