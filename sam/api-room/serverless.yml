@@ -36,60 +36,100 @@ package:
    - ./bin/**
 
 functions:
-  hello:
-    handler: bin/hello
+# room
+  roomList:
+    handler: bin/roomList
     events:
       - http:
-          path: hello
+          path: room
           method: get
-  world:
-    handler: bin/world
+          cors: true
+  roomGet:
+    handler: bin/roomGet
     events:
       - http:
-          path: world
+          path: room/{roomid}
           method: get
-
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-# events:
-#    events:
-#      - http:
-#          path: users/create
-#          method: get
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
-# you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
+          cors: true
+  roomPut:
+    handler: bin/roomPut
+    events:
+      - http:
+          path: room
+          method: put
+          cors: true
+  roomPost:
+    handler: bin/roomPost
+    events:
+      - http:
+          path: room
+          method: post
+          cors: true
+  roomDelete:
+    handler: bin/roomDelete
+    events:
+      - http:
+          path: room/{roomid}
+          method: delete
+          cors: true
+#  seat
+  seatList:
+    handler: bin/seatList
+    events:
+      - http:
+          path: seat
+          method: get
+          cors: true
+    seatGet:
+      handler: bin/seatGet
+      events:
+        - http:
+            path: seat/{seatid}
+            method: get
+            cors: true
+    seatPost:
+      handler: bin/seatPost
+      events:
+        - http:
+            path: seat
+            method: post
+            cors: true
+#   room template
+  roomTemplateList:
+    handler: bin/roomTemplateList
+    events:
+      - http:
+          path: room-template
+          method: get
+          cors: true
+  roomTemplateGet:
+    handler: bin/roomTemplateGet
+    events:
+      - http:
+          path: room-template
+          method: get
+          cors: true
+  roomTemplatePut:
+    handler: bin/roomTemplatePut
+    events:
+      - http:
+          path: room-template
+          method: put
+          cors: true
+  roomTemplatePost:
+   handler: bin/roomTemplatePost
+   events:
+     - http:
+         path: room-template
+         method: post
+         cors: true
+  roomTemplateDelete:
+    handler: bin/roomTemplateDelete
+    events:
+      - http:
+          path: room-template
+          method: delete
+          cors: true
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"

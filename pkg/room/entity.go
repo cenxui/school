@@ -13,8 +13,7 @@ type Seat struct {
 	RoomID string
 	//RC example A1, AA1
 	SeatID string
-	//available, occupied, hidden, booked
+	// occupied, hidden, booked
 	SeatStatus string
 	UserID string
-	CreateTime int
 }
