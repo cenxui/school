@@ -1,0 +1,41 @@
+# Copyright (c) 1999-2018 Logitech, Inc.  All Rights Reserved
+#
+# This program is a trade secret of LOGITECH, and it is not to
+# be reproduced, published, disclosed to others, copied,
+# adapted, distributed or displayed without the prior
+# authorization of LOGITECH.
+#
+# Licensee agrees to attach or embedded this notice on all copies
+# of the program, including partial copies or modified versions
+# thereof.
+#
+# -------------------------------------------------------------
+# DESCRIPTION
+# -------------------------------------------------------------
+# User table for storage user data including UserId, Company,
+# Policy, todo
+# DeviceOwnerID used as an index to query the user which belongs
+# to the DeviceOwnerID, it could be used for user management,
+# including CRUD  manipulate
+#
+# -------------------------------------------------------------
+# AUTHOR
+# -------------------------------------------------------------
+# Cenxui Lin (clin9@logitech.com)
+# -------------------------------------------------------------
+# DATE CREATED
+# -------------------------------------------------------------
+# 16 July 2018
+
+
+service: table-school-room
+
+provider:
+  name: aws
+  region: ap-northeast-1
+
+# AWS CloudFormation templates
+resources:
+  Resources:
+    user:
+

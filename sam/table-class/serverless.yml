@@ -1,0 +1,80 @@
+# Copyright (c) 1999-2018 Logitech, Inc.  All Rights Reserved
+#
+# This program is a trade secret of LOGITECH, and it is not to
+# be reproduced, published, disclosed to others, copied,
+# adapted, distributed or displayed without the prior
+# authorization of LOGITECH.
+#
+# Licensee agrees to attach or embedded this notice on all copies
+# of the program, including partial copies or modified versions
+# thereof.
+#
+# -------------------------------------------------------------
+# DESCRIPTION
+# -------------------------------------------------------------
+# User table for storage user data including UserId, Company,
+# Policy, todo
+# DeviceOwnerID used as an index to query the user which belongs
+# to the DeviceOwnerID, it could be used for user management,
+# including CRUD  manipulate
+#
+# -------------------------------------------------------------
+# AUTHOR
+# -------------------------------------------------------------
+# Cenxui Lin (clin9@logitech.com)
+# -------------------------------------------------------------
+# DATE CREATED
+# -------------------------------------------------------------
+# 16 July 2018
+
+
+service: table-school-class
+
+provider:
+  name: aws
+  region: ap-northeast-1
+
+# AWS CloudFormation templates
+resources:
+  Resources:
+    device:
+      Type: "AWS::DynamoDB::Table"
+
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: "UserID"
+            AttributeType: "S"
+          -
+            AttributeName: "DeviceOwnerID"
+            AttributeType: "S"
+          -
+            AttributeName: "UserGroup"
+            AttributeType: "S"
+        KeySchema:
+          -
+            AttributeName: "UserID"
+            KeyType: "HASH"
+
+        ProvisionedThroughput:
+          ReadCapacityUnits: "1"
+          WriteCapacityUnits: "1"
+        TableName: "1A-User"
+
+        GlobalSecondaryIndexes:
+          -
+            IndexName: "DeviceOwnerID"
+            KeySchema:
+            -
+              AttributeName: "DeviceOwnerID"
+              KeyType: "HASH"
+            -
+              AttributeName: "UserGroup"
+              KeyType: "RANGE"
+
+            Projection:
+              ProjectionType: "ALL"
+            ProvisionedThroughput:
+              ReadCapacityUnits: "1"
+              WriteCapacityUnits: "1"
+
