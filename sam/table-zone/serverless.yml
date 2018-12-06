@@ -28,7 +28,7 @@
 # 16 July 2018
 
 
-service: table-school-room
+service: table-school-zone
 
 provider:
   name: aws
@@ -37,16 +37,16 @@ provider:
 # AWS CloudFormation templates
 resources:
   Resources:
-    room:
+    zone:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: "RoomID"
+            AttributeName: "zoneID"
             AttributeType: "S"
         KeySchema:
           -
-            AttributeName: "RoomID"
+            AttributeName: "zoneID"
             KeyType: "HASH"
 
         ProvisionedThroughput:
@@ -54,40 +54,40 @@ resources:
           WriteCapacityUnits: "1"
         TableName: "${self:service}"
 
-    seat:
+    position:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: "RoomID"
+            AttributeName: "zoneID"
             AttributeType: "S"
           -
-            AttributeName: "SeatID"
+            AttributeName: "positionID"
             AttributeType: "S"
           -
-            AttributeName: "SeatStatus"
+            AttributeName: "positionStatus"
             AttributeType: "S"
         KeySchema:
           -
-            AttributeName: "RoomID"
+            AttributeName: "zoneID"
             KeyType: "HASH"
           -
-            AttributeName: "SeatID"
+            AttributeName: "positionID"
             KeyType: "RANGE"
         LocalSecondaryIndexes:
           -
             IndexName: SteatStatus
             KeySchema:
               -
-                AttributeName: "RoomID"
+                AttributeName: "zoneID"
                 KeyType: "HASH"
               -
-                AttributeName: "SeatStatus"
+                AttributeName: "positionStatus"
                 KeyType: "RANGE"
             Projection:
               ProjectionType: "ALL"
         ProvisionedThroughput:
           ReadCapacityUnits: "1"
           WriteCapacityUnits: "1"
-        TableName: { "Fn::Join" : ["", ["${self:service}", "-seat" ] ]  }
+        TableName: { "Fn::Join" : ["", ["${self:service}", "-position" ] ]  }
 

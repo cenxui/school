@@ -1,19 +1,19 @@
-package room
+package zone
 
-type Room struct {
-	RoomID string
-	SeatNumber int
+type zone struct {
+	zoneID string
+	positionNumber int
 	CreateTime int
 	StartTime int
 	EndTime int
 	//todo
 }
 
-type Seat struct {
-	RoomID string
+type position struct {
+	zoneID string
 	//RC example A1, AA1
-	SeatID string
+	positionID string
 	// occupied, hidden, booked
-	SeatStatus string
+	positionStatus string
 	UserID string
 }

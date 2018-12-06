@@ -28,14 +28,47 @@
 # 16 July 2018
 
 
-service: table-school-room
+service: school-user
 
 provider:
   name: aws
-  region: ap-northeast-1
+  region: ${opt:region, 'ap-northeast-1'}
+  stage: ${opt:stage, 'dev'}
 
 # AWS CloudFormation templates
 resources:
   Resources:
-    user:
+    UserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: ${self:custom.userPool}
+        AdminCreateUserConfig:
+          AllowAdminCreateUserOnly: true
+        AutoVerifiedAttributes:
+          - email
+        UsernameAttributes:
+          - email
+#        Schema:
+#          - Name: email
+#            Required: true
+#          - Name: preferred_username
+#            Required: true
+#            Mutable: true
+#          - Name: org
+#            AttributeDataType: String
+#            Mutable: true
+#          - Name: role
+#            AttributeDataType: String
+#            Mutable: true
+#          - Name: dept
+#            AttributeDataType: String
+#            Mutable: true
+
+    UserPoolWebClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: Raiden web client
+        GenerateSecret: false
+        UserPoolId: !Ref UserPool
+        ExplicitAuthFlows: [USER_PASSWORD_AUTH]
 

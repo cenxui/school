@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: api-room # NOTE: update this with your service name
+service: api-zone # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -36,98 +36,98 @@ package:
    - ./bin/**
 
 functions:
-# room
-  roomList:
-    handler: bin/roomList
+# zone
+  zoneList:
+    handler: bin/zoneList
     events:
       - http:
-          path: room
+          path: zone
           method: get
           cors: true
-  roomGet:
-    handler: bin/roomGet
+  zoneGet:
+    handler: bin/zoneGet
     events:
       - http:
-          path: room/{roomid}
+          path: zone/{zoneid}
           method: get
           cors: true
-  roomPut:
-    handler: bin/roomPut
+  zonePut:
+    handler: bin/zonePut
     events:
       - http:
-          path: room
+          path: zone
           method: put
           cors: true
-  roomPost:
-    handler: bin/roomPost
+  zonePost:
+    handler: bin/zonePost
     events:
       - http:
-          path: room
+          path: zone
           method: post
           cors: true
-  roomDelete:
-    handler: bin/roomDelete
+  zoneDelete:
+    handler: bin/zoneDelete
     events:
       - http:
-          path: room/{roomid}
+          path: zone/{zoneid}
           method: delete
           cors: true
-#  seat
-  seatList:
-    handler: bin/seatList
+#  position
+  positionList:
+    handler: bin/positionList
     events:
       - http:
-          path: seat
+          path: position
           method: get
           cors: true
-    seatGet:
-      handler: bin/seatGet
+    positionGet:
+      handler: bin/positionGet
       events:
         - http:
-            path: seat/{seatid}
+            path: position/{positionid}
             method: get
             cors: true
-    seatPost:
-      handler: bin/seatPost
+    positionPost:
+      handler: bin/positionPost
       events:
         - http:
-            path: seat
+            path: position
             method: post
             cors: true
-#   room template
-  roomTemplateList:
-    handler: bin/roomTemplateList
+#   zone template
+  zoneTemplateList:
+    handler: bin/zoneTemplateList
     events:
       - http:
-          path: room-template
+          path: zone-template
           method: get
           cors: true
-  roomTemplateGet:
-    handler: bin/roomTemplateGet
+  zoneTemplateGet:
+    handler: bin/zoneTemplateGet
     events:
       - http:
-          path: room-template
+          path: zone-template
           method: get
           cors: true
-  roomTemplatePut:
-    handler: bin/roomTemplatePut
+  zoneTemplatePut:
+    handler: bin/zoneTemplatePut
     events:
       - http:
-          path: room-template
+          path: zone-template
           method: put
           cors: true
-  roomTemplatePost:
-   handler: bin/roomTemplatePost
+  zoneTemplatePost:
+   handler: bin/zoneTemplatePost
    events:
      - http:
-         path: room-template
+         path: zone-template
          method: post
          cors: true
-  roomTemplateDelete:
-    handler: bin/roomTemplateDelete
+  zoneTemplateDelete:
+    handler: bin/zoneTemplateDelete
     events:
       - http:
-          path: room-template
+          path: zone-template
           method: delete
           cors: true
 #  Outputs:
