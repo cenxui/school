@@ -41,34 +41,44 @@ resources:
     UserPool:
       Type: AWS::Cognito::UserPool
       Properties:
-        UserPoolName: ${self:custom.userPool}
+        UserPoolName: {Fn::Join : ["", ["${self:service}", "-", "${self:provider.stage}"]]}
         AdminCreateUserConfig:
           AllowAdminCreateUserOnly: true
         AutoVerifiedAttributes:
           - email
         UsernameAttributes:
           - email
-#        Schema:
-#          - Name: email
-#            Required: true
-#          - Name: preferred_username
-#            Required: true
-#            Mutable: true
-#          - Name: org
-#            AttributeDataType: String
-#            Mutable: true
-#          - Name: role
-#            AttributeDataType: String
-#            Mutable: true
-#          - Name: dept
-#            AttributeDataType: String
-#            Mutable: true
+        Schema:
+          - Name: email
+            Required: true
+          - Name: preferred_username
+            Required: true
+            Mutable: true
+          - Name: org
+            AttributeDataType: String
+            Mutable: true
+          - Name: role
+            AttributeDataType: String
+            Mutable: true
+          - Name: dept
+            AttributeDataType: String
+            Mutable: true
 
-    UserPoolWebClient:
+    UserPoolClient:
       Type: AWS::Cognito::UserPoolClient
       Properties:
-        ClientName: Raiden web client
+        ClientName: School
         GenerateSecret: false
-        UserPoolId: !Ref UserPool
+        UserPoolId:
+          Ref: UserPool
         ExplicitAuthFlows: [USER_PASSWORD_AUTH]
 
+Outputs:
+  UserPoolId:
+    Description: Cognito user pool ID
+    Value:
+      Ref: UserPool
+  ClientId:
+    Description: Cognito user pool client ID for web app
+    Value:
+      Ref: UserPoolClient
