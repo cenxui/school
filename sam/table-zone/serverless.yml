@@ -32,7 +32,8 @@ service: table-school-zone
 
 provider:
   name: aws
-  region: ap-northeast-1
+  region: ${opt:region, 'ap-northeast-1'}
+  stage: ${opt:stage, 'dev'}
 
 # AWS CloudFormation templates
 resources:
@@ -42,24 +43,29 @@ resources:
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: "zoneID"
+            AttributeName: "OrgID"
+            AttributeType: "S"
+          -
+            AttributeName: "ZoneID"
             AttributeType: "S"
         KeySchema:
           -
-            AttributeName: "zoneID"
+            AttributeName: "OrgID"
             KeyType: "HASH"
-
+          -
+            AttributeName: "ZoneID"
+            KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: "1"
           WriteCapacityUnits: "1"
-        TableName: "${self:service}"
+        TableName: { "Fn::Join" : ["", ["${self:service}", "-zone" ] ]  }
 
     position:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: "zoneID"
+            AttributeName: "ZoneID"
             AttributeType: "S"
           -
             AttributeName: "positionID"
@@ -69,7 +75,7 @@ resources:
             AttributeType: "S"
         KeySchema:
           -
-            AttributeName: "zoneID"
+            AttributeName: "ZoneID"
             KeyType: "HASH"
           -
             AttributeName: "positionID"
@@ -79,7 +85,7 @@ resources:
             IndexName: SteatStatus
             KeySchema:
               -
-                AttributeName: "zoneID"
+                AttributeName: "ZoneID"
                 KeyType: "HASH"
               -
                 AttributeName: "positionStatus"
@@ -91,3 +97,26 @@ resources:
           WriteCapacityUnits: "1"
         TableName: { "Fn::Join" : ["", ["${self:service}", "-position" ] ]  }
 
+
+
+    zoneTemplate:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: "OrgID"
+            AttributeType: "S"
+          -
+            AttributeName: "ZoneTemplateID"
+            AttributeType: "S"
+        KeySchema:
+          -
+            AttributeName: "OrgID"
+            KeyType: "HASH"
+          -
+            AttributeName: "ZoneTemplateID"
+            KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: "1"
+          WriteCapacityUnits: "1"
+        TableName: { "Fn::Join" : ["", ["${self:service}", "-zone-template" ] ]  }

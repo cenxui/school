@@ -32,7 +32,8 @@ service: table-school-class
 
 provider:
   name: aws
-  region: ap-northeast-1
+  region: ${opt:region, 'ap-northeast-1'}
+  stage: ${opt:stage, 'dev'}
 
 # AWS CloudFormation templates
 resources:
@@ -59,7 +60,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: "1"
           WriteCapacityUnits: "1"
-        TableName: "1A-User"
+        TableName: { "Fn::Join" : ["", ["${self:service}", "-class" ] ]  }
 
         GlobalSecondaryIndexes:
           -

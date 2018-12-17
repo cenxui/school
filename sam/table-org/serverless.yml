@@ -28,11 +28,12 @@
 # 16 July 2018
 
 
-service: table-school-class
+service: table-school-org
 
 provider:
   name: aws
-  region: ap-northeast-1
+  region: ${opt:region, 'ap-northeast-1'}
+  stage: ${opt:stage, 'dev'}
 
 # AWS CloudFormation templates
 resources:
@@ -43,38 +44,14 @@ resources:
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: "UserID"
-            AttributeType: "S"
-          -
-            AttributeName: "DeviceOwnerID"
-            AttributeType: "S"
-          -
-            AttributeName: "UserGroup"
+            AttributeName: "OrgID"
             AttributeType: "S"
         KeySchema:
           -
-            AttributeName: "UserID"
+            AttributeName: "OrgID"
             KeyType: "HASH"
 
         ProvisionedThroughput:
           ReadCapacityUnits: "1"
           WriteCapacityUnits: "1"
-        TableName: "1A-User"
-
-        GlobalSecondaryIndexes:
-          -
-            IndexName: "DeviceOwnerID"
-            KeySchema:
-            -
-              AttributeName: "DeviceOwnerID"
-              KeyType: "HASH"
-            -
-              AttributeName: "UserGroup"
-              KeyType: "RANGE"
-
-            Projection:
-              ProjectionType: "ALL"
-            ProvisionedThroughput:
-              ReadCapacityUnits: "1"
-              WriteCapacityUnits: "1"
-
+        TableName: { "Fn::Join" : ["", ["${self:service}", "-org" ] ]  }

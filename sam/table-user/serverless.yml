@@ -32,26 +32,43 @@ service: table-school-user
 
 provider:
   name: aws
-  region: ap-northeast-1
+  region: ${opt:region, 'ap-northeast-1'}
+  stage: ${opt:stage, 'dev'}
 
 # AWS CloudFormation templates
 resources:
   Resources:
-    device:
+    user:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
           -
             AttributeName: "UserID"
             AttributeType: "S"
+          -
+           AttributeName: "OrgID"
+           AttributeType: "S"
         KeySchema:
           -
             AttributeName: "UserID"
             KeyType: "HASH"
-
+          -
+            AttributeName: "OrgID"
+            KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: "1"
           WriteCapacityUnits: "1"
-        TableName: "${self:service}"
+        TableName: { "Fn::Join" : ["", ["${self:service}", "-user" ] ]  }
 
-
+        GlobalSecondaryIndexes:
+          -
+            IndexName: "OrgIndex"
+            KeySchema:
+            -
+              AttributeName: "OrgID"
+              KeyType: "HASH"
+            Projection:
+              ProjectionType: "ALL"
+            ProvisionedThroughput:
+              ReadCapacityUnits: "1"
+              WriteCapacityUnits: "1"
