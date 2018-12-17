@@ -48,21 +48,21 @@ resources:
           - email
         UsernameAttributes:
           - email
-        Schema:
-          - Name: email
-            Required: true
-          - Name: preferred_username
-            Required: true
-            Mutable: true
-          - Name: org
-            AttributeDataType: String
-            Mutable: true
-          - Name: role
-            AttributeDataType: String
-            Mutable: true
-          - Name: dept
-            AttributeDataType: String
-            Mutable: true
+#        Schema:
+#          - Name: email
+#            Required: true
+#          - Name: preferred_username
+#            Required: true
+#            Mutable: true
+#          - Name: org
+#            AttributeDataType: String
+#            Mutable: true
+#          - Name: role
+#            AttributeDataType: String
+#            Mutable: true
+#          - Name: dept
+#            AttributeDataType: String
+#            Mutable: true
 
     UserPoolClient:
       Type: AWS::Cognito::UserPoolClient
