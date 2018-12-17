@@ -87,12 +87,27 @@ functions:
             path: position/{positionid}
             method: get
             cors: true
+    positionPut:
+      handler: bin/positionPut
+      events:
+        - http:
+            path: position
+            method: put
+            cors: true
     positionPost:
       handler: bin/positionPost
       events:
         - http:
             path: position
             method: post
+            cors: true
+
+    positionDelete:
+      handler: bin/positionDelete
+      events:
+        - http:
+            path: position
+            method: delete
             cors: true
 #   zone template
   zoneTemplateList:
@@ -106,7 +121,7 @@ functions:
     handler: bin/zoneTemplateGet
     events:
       - http:
-          path: zone-template
+          path: zone-template/{templateid}
           method: get
           cors: true
   zoneTemplatePut:
