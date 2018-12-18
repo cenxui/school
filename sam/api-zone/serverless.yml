@@ -23,7 +23,7 @@ provider:
   runtime: go1.x
   stage: dev
   region: ap-northeast-1
-  cognitoService: cognito-org
+  cognitoService: cognito-user
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -162,7 +162,6 @@ resources:
         IdentitySource: method.request.header.Authorization
         RestApiId:
           Ref: ApiGatewayRestApi
-  #      todo change school-org
         ProviderARNs: [{'Fn::ImportValue': {Fn::Join: ["", ["${self:provider.cognitoService}","-","${self:provider.stage}", "-UserPoolArn" ] ]}}]
 
     GatewayResponseDefault4XX:
