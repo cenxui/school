@@ -1,11 +1,11 @@
-package user
+package zone
 
 type Repository interface {
 	List(...string) (string, error)
 	Get(string) (string, error)
-	Create(User) error
+	Create(Zone) error
 	//edit
-	Edit(User) error
+	Edit(Zone) error
 	Delete(string) error
 }
 

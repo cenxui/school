@@ -44,6 +44,10 @@ functions:
           path: user
           method: get
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
   userGet:
     handler: bin/userGet
     events:
