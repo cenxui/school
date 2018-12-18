@@ -12,10 +12,10 @@
 # -------------------------------------------------------------
 # DESCRIPTION
 # -------------------------------------------------------------
-# User table for storage user data including UserId, Company,
+# User table for storage org data including UserId, Company,
 # Policy, todo
-# DeviceOwnerID used as an index to query the user which belongs
-# to the DeviceOwnerID, it could be used for user management,
+# DeviceOwnerID used as an index to query the org which belongs
+# to the DeviceOwnerID, it could be used for org management,
 # including CRUD  manipulate
 #
 # -------------------------------------------------------------

@@ -12,10 +12,10 @@
 # -------------------------------------------------------------
 # DESCRIPTION
 # -------------------------------------------------------------
-# User table for storage user data including UserId, Company,
+# User table for storage org data including UserId, Company,
 # Policy, todo
-# DeviceOwnerID used as an index to query the user which belongs
-# to the DeviceOwnerID, it could be used for user management,
+# DeviceOwnerID used as an index to query the org which belongs
+# to the DeviceOwnerID, it could be used for org management,
 # including CRUD  manipulate
 #
 # -------------------------------------------------------------
@@ -28,7 +28,7 @@
 # 16 July 2018
 
 
-service: table-school-user
+service: table-school-org
 
 provider:
   name: aws
@@ -58,7 +58,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: "1"
           WriteCapacityUnits: "1"
-        TableName: { "Fn::Join" : ["", ["${self:service}", "-user" ] ]  }
+        TableName: { "Fn::Join" : ["", ["${self:service}", "-org" ] ]  }
 
         GlobalSecondaryIndexes:
           -

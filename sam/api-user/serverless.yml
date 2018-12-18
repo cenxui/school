@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: api-user # NOTE: update this with your service name
+service: api-org # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -23,7 +23,7 @@ provider:
   runtime: go1.x
   region: ${opt:region, 'ap-northeast-1'}
   stage: ${opt:stage, 'dev'}
-  cognitoService: cognito-user
+  cognitoService: cognito-org
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -41,35 +41,35 @@ functions:
     handler: bin/userList
     events:
       - http:
-          path: user
+          path: org
           method: get
           cors: true
   userGet:
     handler: bin/userGet
     events:
       - http:
-          path: user/{userid}
+          path: org/{userid}
           method: get
           cors: true
   userPut:
     handler: bin/userPut
     events:
       - http:
-          path: user
+          path: org
           method: put
           cors: true
   userPost:
     handler: bin/userPost
     events:
       - http:
-          path: user
+          path: org
           method: post
           cors: true
   userDelete:
     handler: bin/userDelete
     events:
       - http:
-          path: user/{userid}
+          path: org/{userid}
           method: delete
           cors: true
   groupList:
@@ -122,7 +122,7 @@ resources:
         IdentitySource: method.request.header.Authorization
         RestApiId:
           Ref: ApiGatewayRestApi
-  #      todo change school-user
+  #      todo change school-org
         ProviderARNs: [{'Fn::ImportValue': {Fn::Join: ["", ["${self:provider.cognitoService}","-","${self:provider.stage}", "-UserPoolArn" ] ]}}]
 
     GatewayResponseDefault4XX:

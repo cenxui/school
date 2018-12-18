@@ -12,10 +12,10 @@
 # -------------------------------------------------------------
 # DESCRIPTION
 # -------------------------------------------------------------
-# User table for storage user data including UserId, Company,
+# User table for storage org data including UserId, Company,
 # Policy, todo
-# DeviceOwnerID used as an index to query the user which belongs
-# to the DeviceOwnerID, it could be used for user management,
+# DeviceOwnerID used as an index to query the org which belongs
+# to the DeviceOwnerID, it could be used for org management,
 # including CRUD  manipulate
 #
 # -------------------------------------------------------------
@@ -28,7 +28,7 @@
 # 16 July 2018
 
 
-service: cognito-user
+service: cognito-org
 
 provider:
   name: aws
@@ -75,24 +75,24 @@ resources:
 
   Outputs:
     UserPoolRegion:
-      Description: Cognito user region
+      Description: Cognito org region
       Value:
         Ref: AWS::Region
       Export:
         Name: {Fn::Join: ['-', [Ref: AWS::StackName, UserPoolRegion]]}
     UserPoolId:
-      Description: Cognito user pool ID
+      Description: Cognito org pool ID
       Value:
         Ref: UserPool
       Export:
         Name: {Fn::Join: ['-', [Ref: AWS::StackName, UserPoolId]]}
     UserPoolArn:
-      Description: Cognito user pool ID
+      Description: Cognito org pool ID
       Value: {'Fn::GetAtt': UserPool.Arn}
       Export:
         Name: {Fn::Join: ['-', [Ref: AWS::StackName, UserPoolArn]]}
     ClientId:
-      Description: Cognito user pool client ID for app backend
+      Description: Cognito org pool client ID for app backend
       Value:
         Ref: UserPoolClient
       Export:
