@@ -28,7 +28,7 @@
 # 16 July 2018
 
 
-service: school-user
+service: cognito-user
 
 provider:
   name: aws
@@ -73,12 +73,27 @@ resources:
           Ref: UserPool
         ExplicitAuthFlows: [USER_PASSWORD_AUTH]
 
-Outputs:
-  UserPoolId:
-    Description: Cognito user pool ID
-    Value:
-      Ref: UserPool
-  ClientId:
-    Description: Cognito user pool client ID for web app
-    Value:
-      Ref: UserPoolClient
+  Outputs:
+    UserPoolRegion:
+      Description: Cognito user region
+      Value:
+        Ref: AWS::Region
+      Export:
+        Name: {Fn::Join: ['-', [Ref: AWS::StackName, UserPoolRegion]]}
+    UserPoolId:
+      Description: Cognito user pool ID
+      Value:
+        Ref: UserPool
+      Export:
+        Name: {Fn::Join: ['-', [Ref: AWS::StackName, UserPoolId]]}
+    UserPoolArn:
+      Description: Cognito user pool ID
+      Value: {'Fn::GetAtt': UserPool.Arn}
+      Export:
+        Name: {Fn::Join: ['-', [Ref: AWS::StackName, UserPoolArn]]}
+    ClientId:
+      Description: Cognito user pool client ID for app backend
+      Value:
+        Ref: UserPoolClient
+      Export:
+        Name: {Fn::Join: ['-', [Ref: AWS::StackName, ClientId]]}
