@@ -67,11 +67,75 @@ resources:
     UserPoolClient:
       Type: AWS::Cognito::UserPoolClient
       Properties:
-        ClientName: School
+        ClientName: School #todo
         GenerateSecret: false
         UserPoolId:
           Ref: UserPool
         ExplicitAuthFlows: [USER_PASSWORD_AUTH]
+
+    IdentityPool:
+      Type: AWS::Cognito::IdentityPool
+      Properties:
+        IdentityPoolName: {Fn::Join : ["", ["IdentityPool", "${self:provider.stage}"]]}
+        AllowUnauthenticatedIdentities: false
+#        DeveloperProviderName: String
+#        SupportedLoginProviders:
+#          String: String
+#        CognitoIdentityProviders:
+#          - CognitoIdentityProvider
+#        SamlProviderARNs:
+#          - String
+#        OpenIdConnectProviderARNs:
+#          - String
+#        CognitoStreams:
+#          - CognitoStreams
+#        PushSync:
+#          - PushSync
+#        CognitoEvents:
+#          String: String
+
+    AuthRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: {Fn::Join : ["-", ['CognitoAuth','${self:service}', '${self:provider.stage}']]}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Sid: ''
+            Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              ForAnyValue:StringLike:
+                cognito-identity.amazonaws.com:amr: authenticated
+    UnAuthRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: {Fn::Join : ["-", ['CognitoUnAuth','${self:service}', '${self:provider.stage}']]}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Sid: ''
+            Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              ForAnyValue:StringLike:
+                cognito-identity.amazonaws.com:amr: unauthenticated
+
+    IdentityPoolRoleMap:
+    # Created to map Auth and Unauth roles to the identity pool
+    # Depends on Identity Pool for ID ref
+      Type: AWS::Cognito::IdentityPoolRoleAttachment
+      Properties:
+        IdentityPoolId:
+          Ref: IdentityPool
+        Roles:
+          unauthenticated: {Fn::GetAtt : ['UnAuthRole', 'Arn'] }
+          authenticated: {Fn::GetAtt : ['AuthRole', 'Arn'] }
+      DependsOn: IdentityPool
 
   Outputs:
     UserPoolRegion:
@@ -97,3 +161,9 @@ resources:
         Ref: UserPoolClient
       Export:
         Name: {Fn::Join: ['-', [Ref: AWS::StackName, ClientId]]}
+    IdentityPoolId:
+      Description: Cognito identity pool ID
+      Value:
+        Ref: IdentityPool
+      Export:
+        Name: {Fn::Join: ['-', [Ref: AWS::StackName, IdentityPoolId]]}

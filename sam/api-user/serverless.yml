@@ -138,3 +138,19 @@ resources:
           gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
           gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,Authorization'"
           gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,PUT,POST,DELETE'"
+
+#    ApiGatewayBasePathMapping:
+#      Type: AWS::ApiGateway::BasePathMapping
+#      Properties:
+#       DomainName: !Ref ApiGatewayDomainName
+#       RestApiId: !Ref ApiGatewayRestApi
+#       Stage: ${self:provider.stage}
+#
+#    #todo
+#    ApiGatewayDomainName:
+#      Type: AWS::ApiGateway::DomainName
+#      Properties:
+#        CertificateArn: arn:aws:acm:us-east-1:512377700237:certificate/95089f11-8268-4eb5-b4c5-5116df2de44a
+#        DomainName: ${self:custom.subdomain}.${self:custom.domain}
+
+
