@@ -10,7 +10,7 @@ build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/groupPost group/post/post.go
 	env GOOS=linux go build -ldflags="-s -w" -o bin/groupDelete group/delete/delete.go
 
-.PHONY: clean
+.PHONY: clean deploy
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 

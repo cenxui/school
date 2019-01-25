@@ -5,7 +5,7 @@ build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/orgPost org/post/post.go
 	env GOOS=linux go build -ldflags="-s -w" -o bin/orgDelete org/delete/delete.go
 
-.PHONY: clean
+.PHONY: build clean deploy
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 

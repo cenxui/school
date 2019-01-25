@@ -24,6 +24,8 @@ provider:
   region: ${opt:region, 'ap-northeast-1'}
   stage: ${opt:stage, 'dev'}
   cognitoService: cognito-user
+  dns: ${opt:dns, 'vclogitech.com'} # please buy a domain name
+  cArn: ${opt:cArn, 'arn:aws:acm:us-east-1:895233118661:certificate/fa1490e6-5377-4eea-af15-b7a7ac11ef92'} # please buy a domain name
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -139,18 +141,40 @@ resources:
           gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,Authorization'"
           gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,PUT,POST,DELETE'"
 
-#    ApiGatewayBasePathMapping:
-#      Type: AWS::ApiGateway::BasePathMapping
-#      Properties:
-#       DomainName: !Ref ApiGatewayDomainName
-#       RestApiId: !Ref ApiGatewayRestApi
-#       Stage: ${self:provider.stage}
-#
-#    #todo
-#    ApiGatewayDomainName:
-#      Type: AWS::ApiGateway::DomainName
-#      Properties:
-#        CertificateArn: arn:aws:acm:us-east-1:512377700237:certificate/95089f11-8268-4eb5-b4c5-5116df2de44a
-#        DomainName: ${self:custom.subdomain}.${self:custom.domain}
+    ApiGatewayBasePathMapping:
+      Type: AWS::ApiGateway::BasePathMapping
+      Properties:
+       DomainName:
+        Ref: ApiGatewayDomainName
+       RestApiId:
+        Ref: ApiGatewayRestApi
+       Stage: ${self:provider.stage}
 
+    ApiGatewayDomainName:
+      Type: AWS::ApiGateway::DomainName
+      Properties:
+        CertificateArn: ${self:provider.cArn}
+        DomainName: ${self:service}.${self:provider.region}.${self:provider.dns}
+
+    #
+    # Route53
+    #
+
+    DnsRecordSet:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneName: ${self:provider.dns}.
+        Name: ${self:service}.${self:provider.region}.${self:provider.dns}
+        Type: A
+        AliasTarget:
+          HostedZoneId:
+            Fn::GetAtt: [ ApiGatewayDomainName, DistributionHostedZoneId ]
+          DNSName:
+            Fn::GetAtt: [ ApiGatewayDomainName, DistributionDomainName ]
+
+  Outputs:
+    ServiceEndpointAlias:
+      Value: {Fn::Join: ['', [https://, Ref: DnsRecordSet]]}
+      Export:
+        {Name: {Fn::Join: ['-', [Ref: AWS::StackName, ServiceEndpoint]]}}
 

@@ -14,7 +14,8 @@ build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/zoneTemplatePut zone-template/put/put.go
 	env GOOS=linux go build -ldflags="-s -w" -o bin/zoneTemplatePost zone-template/post/post.go
 	env GOOS=linux go build -ldflags="-s -w" -o bin/zoneTemplateDelete zone-template/delete/delete.go
-.PHONY: clean
+
+.PHONY: clean build deploy
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
